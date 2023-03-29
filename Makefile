@@ -7,8 +7,15 @@ COUNT=1000
 love:	all
 
 .PHONY:	all
-all:	pp_incdec.h
+all:	pp_incdec.h tests
+	./tests
 
-pp_incdec.h:	pp_incdec.awk // Makefile
+tests:	tests.c *.h
+
+pp_incdec.h:	pp_incdec.awk Makefile
 	awk -vMAX='$(COUNT)' -vGEN='$<' -f '$<' >'$@'
+
+.PHONY:	clean
+clean:
+	rm -f tests
 
