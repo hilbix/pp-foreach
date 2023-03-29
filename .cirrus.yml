@@ -1,7 +1,7 @@
 task:
   matrix:
     - macos_instance:
-        image: catalina-xcode
+        image: macos-ventura-xcode:latest
     - container:
         image: gcc:latest
   compile-script: make
