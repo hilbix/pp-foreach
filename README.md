@@ -1,3 +1,5 @@
+[![L Build Status](https://api.cirrus-ci.com/github/hilbix/pp-foreach.svg?branch=master)](https://cirrus-ci.com/github/hilbix/pp-foreach/master)
+
 # PP_FOREACH
 
 Foreach loop for C Preprocessor
