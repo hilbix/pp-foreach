@@ -1,7 +1,7 @@
 task:
   matrix:
     - macos_instance:
-        image: macos-ventura-xcode:latest
+        image: ghcr.io/cirruslabs/macos-ventura-xcode:latest
     - container:
         image: gcc:latest
   compile-script: make
