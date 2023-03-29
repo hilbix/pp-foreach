@@ -10,7 +10,11 @@ love:	all
 all:	pp_incdec.h tests
 	./tests
 
+# Do we really have to re-invent the wheel due to MacOS-X?
+# Apparently: Yes
 tests:	tests.c *.h
+	$(CC) '$<' -o '$@'
+
 
 pp_incdec.h:	pp_incdec.awk Makefile
 	awk -vMAX='$(COUNT)' -vGEN='$<' -f '$<' >'$@'
