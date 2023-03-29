@@ -11,6 +11,43 @@ then
 
 	#include "pp_foreach.h"
 
+## EXAMPLE
+
+From <pp_foreach.h>:
+
+	#include "pp_foreach.h"
+	PP_APPLY((hello,world,!),a,b)x
+
+gives
+
+	a(hello) a(world) a(!) b(hello) b(world) b(!)x
+
+From <pp_repeat.h>:
+
+	#include "pp_repeat.h"
+	PP_REPEAT(3,"hello world"))
+
+gives
+
+	"hello world" (0)"hello world" (1)"hello world" (2)
+
+and
+
+	#include "pp_repeat.h"
+	PP_REDUCE(PP_HAVE2ARGS,PP_SUM,1,2,3)
+
+with the given
+
+	#define PP_SUM(x,y,...)	x+y,##__VA_ARGS__
+
+gives
+
+	1+2+3
+
+Note that it would also work with something like
+
+	#define PP_SUM(x,y,...)	x+y,__VA_ARGS__
+
 ## FAQ
 
 WTF why?
