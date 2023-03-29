@@ -1,4 +1,4 @@
-[![L Build Status](https://api.cirrus-ci.com/github/hilbix/pp-foreach.svg?branch=master)](https://cirrus-ci.com/github/hilbix/pp-foreach/master)
+[![pp-foreach Build Status](https://api.cirrus-ci.com/github/hilbix/pp-foreach.svg?branch=master)](https://cirrus-ci.com/github/hilbix/pp-foreach/master)
 
 # PP_FOREACH
 
@@ -15,7 +15,16 @@ then
 
 ## EXAMPLE
 
-From <pp_foreach.h>:
+From [pp_foreach.h](pp_foreach.h):
+
+	#include "pp_foreach.h"
+	PP_FOREACH(a,"hello","world","!")
+
+gives
+
+	a("hello") a("world") a("!")
+
+and
 
 	#include "pp_foreach.h"
 	PP_APPLY((hello,world,!),a,b)x
@@ -24,7 +33,7 @@ gives
 
 	a(hello) a(world) a(!) b(hello) b(world) b(!)x
 
-From <pp_repeat.h>:
+From [pp_repeat.h](pp_repeat.h):
 
 	#include "pp_repeat.h"
 	PP_REPEAT(3,"hello world"))
