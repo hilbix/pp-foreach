@@ -1,0 +1,8 @@
+task:
+  matrix:
+    - macos_instance:
+        image: catalina-xcode
+    - container:
+        image: gcc:latest
+  compile-script: make
+
