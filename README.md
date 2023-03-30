@@ -71,3 +71,7 @@ License?
   see file COPYRIGHT.CLL.  USE AT OWN RISK, ABSOLUTELY NO WARRANTY.
 - Read: Free as free beer, free speech and free baby.
 
+Drawbacks?
+
+- If the compiler generates a warning within the macro expansion this takes ages.
+  - Apparently the output of arround 100000 lines of macro traceback for each warning is a bit slow ..
