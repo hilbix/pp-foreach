@@ -39,6 +39,7 @@
 /* PP_CAT(a,b,...) combine a##b into a single token, leave rest as-is.
  * Usually used with only 2 arguments
  */
+#define	PP_CAT2(x,y)	PP_CAT(x,y)
 #define PP_CAT(x,...)	PP_CAT_(x, __VA_ARGS__)
 #define PP_CAT_(x,...)	PP_CAT__(x ## __VA_ARGS__)
 #define	PP_CAT__(x)	x
@@ -256,6 +257,57 @@ PP_TEST("x a(b) a(c)y"	, x PP_FOREACH(a,b,c)y)
  */
 #define	PP_APPLY(ARGS,...)	PP_EVAL(PP_FOREACH2(PP_APPLY_, ARGS, __VA_ARGS__))
 #define	PP_APPLY_(FN,ARGS)	PP_OBSTRUCT(PP_FOREACH2_)()(PP_APPLY__, FN, PP_EXPAND ARGS)
-#define	PP_APPLY__(ARG,FN)	FN(ARG)
+#define	PP_APPLY__(ARG,FN)	PP_IF(PP_PAREN(ARG))(FN ARG, FN(ARG))
 PP_TEST("a(hello) a(world) a(!) b(hello) b(world) b(!)x",	PP_APPLY((hello,world,!),a,b)x)
+
+/* PP_APPLY3((...args), macroa, macrob, .., macroz) as before
+ * but:
+ * - first runs macroa1(allargs) a single time
+ * - then runs for each arg macroa2(arg)
+ * - then runs  macroa3(allargs) a single time
+ * - Then repeats with macrob and so on
+ *
+ * So the expansion looks like this:
+ *
+ * macroa1(args)
+ * macroa2(firstarg)
+ * macroa2(secondarg)
+ * ..
+ * macroa2(lastarg)
+ * macroa3(args)
+ * macrob1(args)
+ * macrob2(firstarg)
+ * macrob2(secondarg)
+ * ..
+ * macrob2(lastarg)
+ * macrob3(args)
+ * macroc1(args)
+ * ..
+ * macroy3(args)
+ * macroz1(args)
+ * macroz2(firstarg)
+ * macroz2(secondarg)
+ * ..
+ * macroz2(lastarg)
+ * macroz3(args)
+ *
+ * This way you can create enums, functions, structures, and so on as you like,
+ * see example.c
+ */
+#define	PP_APPLY3(ARGS,...)	PP_EVAL(PP_FOREACH2(PP_APPLY3_, ARGS, __VA_ARGS__))
+#define	PP_APPLY3_(FN,ARGS)	PP_APPLY3_1(FN,ARGS)PP_OBSTRUCT(PP_FOREACH2_)()(PP_APPLY3_2, FN, PP_EXPAND ARGS)PP_APPLY3_3(FN, ARGS)
+#define	PP_APPLY3_1(FN,ARGS)	FN##1 ARGS
+#define	PP_APPLY3_2(ARG,FN)	PP_IF(PP_PAREN(ARG))(FN##2 ARG, FN##2(ARG))
+#define	PP_APPLY3_3(FN,ARGS)	FN##3 ARGS
+PP_TEST("a1 (x,y,z)a2(x) a2(y) a2(z) a3 (x,y,z) b1 (x,y,z)b2(x) b2(y) b2(z) b3 (x,y,z) c1 (x,y,z)c2(x) c2(y) c2(z) c3 (x,y,z)!",	PP_APPLY3((x,y,z),a,b,c)!)
+PP_TEST("a1 ((x,x),(y,y),(z,z))a2 (x,x) a2 (y,y) a2 (z,z) a3 ((x,x),(y,y),(z,z)) b1 ((x,x),(y,y),(z,z))b2 (x,x) b2 (y,y) b2 (z,z) b3 ((x,x),(y,y),(z,z)) c1 ((x,x),(y,y),(z,z))c2 (x,x) c2 (y,y) c2 (z,z) c3 ((x,x),(y,y),(z,z))!",	PP_APPLY3(((x,x),(y,y),(z,z)),a,b,c)!)
+
+/* Same as PP_APPLY3, but the "after" function is not called.
+ */
+#define	PP_APPLY2(ARGS,...)	PP_EVAL(PP_FOREACH2(PP_APPLY2_, ARGS, __VA_ARGS__))
+#define	PP_APPLY2_(FN,ARGS)	PP_APPLY2_1(FN,ARGS)PP_OBSTRUCT(PP_FOREACH2_)()(PP_APPLY2_2, FN, PP_EXPAND ARGS)
+#define	PP_APPLY2_1(FN,ARGS)	FN##1 ARGS
+#define	PP_APPLY2_2(ARG,FN)	PP_IF(PP_PAREN(ARG))(FN##2 ARG, FN##2(ARG))
+PP_TEST("a1 (x,y,z)a2(x) a2(y) a2(z) b1 (x,y,z)b2(x) b2(y) b2(z) c1 (x,y,z)c2(x) c2(y) c2(z)!",	PP_APPLY2((x,y,z),a,b,c)!)
+PP_TEST("a1 ((x,x),(y,y),(z,z))a2 (x,x) a2 (y,y) a2 (z,z) b1 ((x,x),(y,y),(z,z))b2 (x,x) b2 (y,y) b2 (z,z) c1 ((x,x),(y,y),(z,z))c2 (x,x) c2 (y,y) c2 (z,z)!",	PP_APPLY2(((x,x),(y,y),(z,z)),a,b,c)!)
 
