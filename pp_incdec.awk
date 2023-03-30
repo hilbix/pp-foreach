@@ -4,8 +4,8 @@
 
 BEGIN	{
 	printf "/* automatically generated from %s, DO NOT EDIT! */\n\n", GEN;
-	printf "#define PP_DEC(x) PP_CAT(PP_DEC_,x)\n"
-	printf "#define PP_INC(x) PP_CAT(PP_INC_,x)\n"
+	printf "#define PP_DEC(x) PP_CAT_(PP_DEC_,x)\n"
+	printf "#define PP_INC(x) PP_CAT_(PP_INC_,x)\n"
 	printf "#define PP_NUM(x) PP_CHECK(PP_CAT_(PP_NUM_,x))\n"
 	for (i=0; i<=MAX; i++)
 	  {
