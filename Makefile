@@ -9,6 +9,7 @@ love:	all
 .PHONY:	all
 all:	pp_incdec.h tests
 	./tests
+	$(MAKE) example
 
 # Do we really have to re-invent the wheel due to MacOS-X?
 # Apparently: Yes
@@ -21,5 +22,5 @@ pp_incdec.h:	pp_incdec.awk Makefile
 
 .PHONY:	clean
 clean:
-	rm -f tests
+	rm -f tests example pp_incdec.h
 
