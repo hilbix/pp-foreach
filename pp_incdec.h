@@ -1,7 +1,7 @@
 /* automatically generated from pp_incdec.awk, DO NOT EDIT! */
 
-#define PP_DEC(x) PP_CAT(PP_DEC_,x)
-#define PP_INC(x) PP_CAT(PP_INC_,x)
+#define PP_DEC(x) PP_CAT_(PP_DEC_,x)
+#define PP_INC(x) PP_CAT_(PP_INC_,x)
 #define PP_NUM(x) PP_CHECK(PP_CAT_(PP_NUM_,x))
 #define PP_DEC_0 0
 #define PP_INC_0 1
