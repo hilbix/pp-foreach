@@ -4,5 +4,6 @@ task:
         image: ghcr.io/cirruslabs/macos-ventura-xcode:latest
     - container:
         image: gcc:latest
-  compile-script: make
+  compile-script: make clean love
+  git-script: x="$(git status --porcelain)" && [ -z "$x" ]
 
