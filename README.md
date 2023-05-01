@@ -15,6 +15,11 @@ then
 
 ## EXAMPLE
 
+Look into [example.c](example.c) to see a simple working example:
+
+	make example
+	./example neg sub neg 1 add neg 3 mul 4 sub 5 neg 6
+
 From [pp_foreach.h](pp_foreach.h):
 
 	#include "pp_foreach.h"
