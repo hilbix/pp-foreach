@@ -10,12 +10,12 @@ love:	all
 all:	pp_incdec.h tests
 	./tests
 	$(MAKE) example
+	./example mul neg sub neg 8 neg 2 neg add neg 3 neg 4
 
 # Do we really have to re-invent the wheel due to MacOS-X?
 # Apparently: Yes
 tests:	tests.c *.h
 	$(CC) '$<' -o '$@'
-
 
 pp_incdec.h:	pp_incdec.awk Makefile
 	awk -vMAX='$(COUNT)' -vGEN='$<' -f '$<' >'$@'
