@@ -88,10 +88,10 @@ usage(void)
         default:
           OOPS("internal error: wrong argument count for %s", ptr->name, NULL);
         case 1:
-          printf("\texample: %s %d: "PTYPE"\n", ptr->name, 1, ptr->fn(1));
+          printf("\texample: %s %d: "PTYPE"\n", ptr->name, 1, ((TYPE (*)(TYPE))ptr->fn)(1));
           break;
         case 2:
-          printf("\texample: %s %d %d: "PTYPE"\n", ptr->name, 2, 3, ptr->fn(1, 2));
+          printf("\texample: %s %d %d: "PTYPE"\n", ptr->name, 2, 3, ((TYPE (*)(TYPE,TYPE))ptr->fn)(1, 2));
           break;
         }
     }
@@ -126,8 +126,8 @@ answer(struct _ *_)
       switch (ptr->nargs)
         {
         TYPE x;
-        case 1:	return ptr->fn(answer(_));
-        case 2:	x = answer(_); return ptr->fn(x,answer(_));
+        case 1:	return ((TYPE (*)(TYPE))ptr->fn)(answer(_));
+        case 2:	x = answer(_); return ((TYPE (*)(TYPE,TYPE))ptr->fn)(x,answer(_));
         }
   n	= STYPE(arg, &end, 0);
   if (!end || *end)
